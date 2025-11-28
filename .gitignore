@@ -1,0 +1,34 @@
+# Node & Next.js
+node_modules/
+.next/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor & system
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+out/
+.vs/
+.vscode/
+
+# Backend build
+backend/build/
+backend/.cache/
+
+# Locks
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

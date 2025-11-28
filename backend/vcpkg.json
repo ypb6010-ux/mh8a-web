@@ -1,0 +1,16 @@
+{
+  "name": "mh8a-backend",
+  "version-string": "0.1.0",
+  "description": "Drogon-based Modbus ingest and telemetry backend with PostgreSQL support.",
+  "builtin-baseline": "be563dfee81e88f9f6cf68839dff5b671b5cfb37",
+  "dependencies": [
+    "drogon",
+    "trantor",
+    "libmodbus",
+    "openssl",
+    "libpq",
+    "libpqxx",
+    "spdlog",
+    "nlohmann-json"
+  ]
+}
