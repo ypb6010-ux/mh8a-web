@@ -32,3 +32,6 @@
 ## Security & Configuration Tips
 - Do not commit secrets or real endpoints; mock data is defined in `lib/mockData.ts`.
 - Environment-specific settings belong in `.env.local` (not committed). Use placeholders in code and document expected keys.
+
+这是前端一个Next.js应用，使用了React 19,设置页面使用了Mantine。
+后端使用了drogon，libmodbus,websocket给前端页面更新。
