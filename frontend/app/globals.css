@@ -138,10 +138,11 @@ main {
 }
 
 .status-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 122px);
   align-items: center;
-  gap: 8px 12px;
+  gap: 10px 16px;
+  justify-content: start;
   position: relative;
 }
 
@@ -149,13 +150,15 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 150px;
-  height: 42px;
-  padding: 0 10px;
+  width: 122px;
+  min-width: 122px;
+  height: 40px;
+  padding: 4px 12px;
   color: var(--text-main);
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  background-size: contain;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
@@ -164,8 +167,8 @@ main {
 
 .status-chip span {
   display: block;
-  max-width: 132px;
-  line-height: 1.05;
+  max-width: 98px;
+  line-height: 1.12;
   text-align: center;
   white-space: normal;
   overflow-wrap: break-word;
@@ -175,13 +178,13 @@ main {
 .status-chip::after {
   content: "";
   position: absolute;
-  right: -12px;
+  right: -14px;
   top: 50%;
-  width: 16px;
-  height: 36px;
+  width: 12px;
+  height: 32px;
   transform: translateY(-50%);
   background: url("/images/隔线.png") center/contain no-repeat;
-  opacity: 0.9;
+  opacity: 0.65;
 }
 .status-chip:last-child::after { display: none; }
 
@@ -648,10 +651,11 @@ main {
     flex-wrap: wrap;
   }
   .status-chip {
-    min-width: 132px;
+    width: 120px;
+    min-width: 120px;
   }
   .status-chip span {
-    max-width: 116px;
+    max-width: 96px;
     font-size: 13px;
   }
 }
