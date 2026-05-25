@@ -226,7 +226,7 @@ main {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 10px 10px 12px;
+  padding: 0px 10px 12px;
   box-shadow: var(--shadow);
   min-height: 120px;
   text-align: center;
@@ -248,6 +248,7 @@ main {
 }
 .monitor-card { background-image: url("/images/能耗信息-数据边框.png"); }
 .temp-card { 
+  padding: 10px 10px 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
