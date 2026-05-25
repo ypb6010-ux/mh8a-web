@@ -2,7 +2,7 @@ import { EnvMetric, MetricCard, SettingsForm, StatusItem, TempMetric } from "./t
 
 export const mockStatuses: StatusItem[] = [
   { name: "Comm", state: "blue" },
-  { name: "Breaker Closed", state: "green" },
+  { name: "Breaker On", state: "green" },
   { name: "Normal", state: "green" },
   { name: "Short Circuit", state: "blue" },
   { name: "Overload", state: "blue" },
@@ -24,7 +24,7 @@ export const mockStatuses: StatusItem[] = [
   { name: "Oil Temp Open", state: "blue" },
   { name: "Level Open", state: "blue" },
   { name: "Motor Temp Open", state: "blue" },
-  { name: "Short-Circuit Lockout", state: "blue" },
+  { name: "SC Lockout", state: "blue" },
   { name: "E-Stop Lockout", state: "blue" },
 ];
 
@@ -47,7 +47,7 @@ export const envMetrics: EnvMetric[] = [
   { name: "Rated V", value: 0, unit: "V", fixed: 0 },
   { name: "Rated A", value: 0, unit: "A", fixed: 0 },
   { name: "RJ", value: 0, unit: "Ω", fixed: 2 },
-  { name: "Short-Circuit Mult.", value: 0, unit: "x", fixed: 0 },
+  { name: "SC Mult.", value: 0, unit: "x", fixed: 0 },
   { name: "Methane", value: 0, unit: "%", fixed: 2 },
 ];
 

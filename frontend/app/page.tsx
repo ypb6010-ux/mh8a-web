@@ -95,7 +95,7 @@ export default function Page() {
       { name: "Rated V", value: zero(num(snap.ratedVoltage)), unit: "V", fixed: 0 },
       { name: "Rated A", value: zero(num(snap.ratedCurrent)), unit: "A", fixed: 0 },
       { name: "RJ", value: zero(num(snap.rj)), unit: "Ω", fixed: 2 },
-      { name: "Short-Circuit Mult.", value: zero(num(snap.shortCircuitFactor)), unit: "x", fixed: 0 },
+      { name: "SC Mult.", value: zero(num(snap.shortCircuitFactor)), unit: "x", fixed: 0 },
       { name: "Methane", value: zero(num(snap.methane)), unit: "%", fixed: 2 },
     ]);
 
@@ -120,7 +120,7 @@ export default function Page() {
       18: "Oil Temp Open",
       19: "Level Open",
       20: "Motor Temp Open",
-      21: "Short-Circuit Lockout",
+      21: "SC Lockout",
       22: "E-Stop Lockout",
     };
     const activeFault = faultNameMap[faultCode] ?? null;
@@ -129,7 +129,7 @@ export default function Page() {
       mockStatuses.map((s) => {
         if (s.name === "Comm") return { ...s, state: connected ? "green" : "blue" };
         if (s.name === "Normal") return { ...s, state: connected && faultCode === 0 ? "green" : "blue" };
-        if (s.name === "Breaker Closed") return { ...s, state: connected && snap.breakerClosed ? "green" : "blue" };
+        if (s.name === "Breaker On") return { ...s, state: connected && snap.breakerClosed ? "green" : "blue" };
         if (!connected) return { ...s, state: "blue" };
         if (activeFault && s.name === activeFault) return { ...s, state: "red" };
         return { ...s, state: s.state === "red" ? "blue" : s.state };

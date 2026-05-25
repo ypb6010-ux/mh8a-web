@@ -68,7 +68,13 @@ main {
 }
 
 .brand img { width: 48px; height: 48px; object-fit: contain; }
-.brand h1 { margin: 0; font-size: 26px; letter-spacing: 0.6px; }
+.brand h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 0;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
 
 .actions {
   display: flex;
@@ -156,6 +162,16 @@ main {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
+.status-chip span {
+  display: block;
+  max-width: 132px;
+  line-height: 1.05;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 .status-chip::after {
   content: "";
   position: absolute;
@@ -223,6 +239,9 @@ main {
   color: var(--text-muted);
   font-size: 18px;
   justify-content: center;
+  line-height: 1.15;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 .monitor-card { background-image: url("/images/能耗信息-数据边框.png"); }
 .temp-card { 
@@ -254,6 +273,8 @@ main {
 .monitor-card header {
   margin-bottom: 0px;
   font-size: 16px;
+  min-height: 38px;
+  padding: 0 4px;
 }
 .monitor-card .frame {
   background: url("/images/能耗信息-数据边框.png") center/contain no-repeat;
@@ -317,6 +338,13 @@ main {
   font-size: 16px;
   text-align: center;
   font-weight: 700;
+  min-height: 38px;
+  line-height: 1.15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .env-card .value-row {
   display: flex;  
@@ -601,4 +629,29 @@ main {
   .content-grid { grid-template-columns: 1fr; }
   main { padding: 18px 16px 28px; }
   .hero { min-height: 320px; }
+}
+
+@media (max-width: 760px) {
+  main {
+    width: 100%;
+    padding: 14px 10px 24px;
+  }
+  .top-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .brand h1 {
+    font-size: 22px;
+  }
+  .actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .status-chip {
+    min-width: 132px;
+  }
+  .status-chip span {
+    max-width: 116px;
+    font-size: 13px;
+  }
 }
