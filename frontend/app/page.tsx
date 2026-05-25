@@ -8,15 +8,15 @@ import { SettingsModal } from "../components/SettingsModal";
 import { StatusGrid } from "../components/StatusGrid";
 import { TempCard } from "../components/TempCard";
 import { defaultSettings, electricMetrics, envMetrics, mockStatuses, tempMetrics } from "../lib/mockData";
-import { SettingsForm } from "../lib/types";
+import { SettingsForm, StatusItem } from "../lib/types";
 
 export default function Page() {
   const [timeText, setTimeText] = useState<Date | null>(null);
   const [mounted, setMounted] = useState(false);
-  const [statuses, setStatuses] = useState(
+  const [statuses, setStatuses] = useState<StatusItem[]>(
     () =>
       mockStatuses.map((s) => {
-        if (s.name === "通讯状态" || s.name === "运行正常") return { ...s, state: "blue" };
+        if (s.name === "Comm" || s.name === "Normal") return { ...s, state: "blue" };
         return { ...s, state: s.state === "red" ? "blue" : s.state };
       })
   );
@@ -28,7 +28,7 @@ export default function Page() {
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [statusTimer, setStatusTimer] = useState<NodeJS.Timeout | null>(null);
   const [wsStatus, setWsStatus] = useState<"connected" | "disconnected" | "error" | "retrying">("disconnected");
-  const [wsNotice, setWsNotice] = useState<string>("实时通道未连接");
+  const [wsNotice, setWsNotice] = useState<string>("Live feed offline");
   const [wsVisible, setWsVisible] = useState<boolean>(true);
   const [wsTimer, setWsTimer] = useState<NodeJS.Timeout | null>(null);
   const apiBase = "/api/modbus";
@@ -63,14 +63,14 @@ export default function Page() {
     });
     const text = await res.text();
     if (!res.ok) {
-      setStatusMessage("配置保存失败");
-      throw new Error(text || "保存失败");
+      setStatusMessage("Failed to save config");
+      throw new Error(text || "Save failed");
     }
-    setStatusMessage("配置已更新");
+    setStatusMessage("Config updated");
     setShowSettings(false);
     if (statusTimer) clearTimeout(statusTimer);
     setStatusTimer(setTimeout(() => setStatusMessage(""), 3000));
-    return "配置已保存";
+    return "Config saved";
   };
 
   const applyTelemetry = (snap: any) => {
@@ -83,53 +83,53 @@ export default function Page() {
       { label: "IB(A)", value: zero(num(snap.ib)), unit: "A", variant: "electricity" },
       { label: "IC(A)", value: zero(num(snap.ic)), unit: "A", variant: "electricity" },
       { label: "Us(V)", value: zero(num(snap.us)), unit: "V", variant: "voltage" },
-      { label: "液位(M)", value: zero(num(snap.level)), unit: "M", variant: "oil" },
+      { label: "Level (m)", value: zero(num(snap.level)), unit: "m", variant: "oil" },
     ]);
     setTemps([
-      { label: "机温", value: zero(num(snap.tempMachine)), min: 0, max: 200, warning: 65 },
-      { label: "油温", value: zero(num(snap.tempOil)), min: 0, max: 300, warning: 80 },
+      { label: "Motor Temp", value: zero(num(snap.tempMachine)), min: 0, max: 200, warning: 65 },
+      { label: "Oil Temp", value: zero(num(snap.tempOil)), min: 0, max: 300, warning: 80 },
     ]);
     setEnvs([
-      { name: "瓦斯浓度", value: zero(num(snap.gas)), unit: "%", fixed: 1 },
-      { name: "流量", value: zero(num(snap.flow)), unit: "L/min", fixed: 1 },
-      { name: "额定电压", value: zero(num(snap.ratedVoltage)), unit: "V", fixed: 0 },
-      { name: "额定电流", value: zero(num(snap.ratedCurrent)), unit: "A", fixed: 0 },
-      { name: "rj", value: zero(num(snap.rj)), unit: "Ω", fixed: 2 },
-      { name: "短路倍数", value: zero(num(snap.shortCircuitFactor)), unit: "x", fixed: 0 },
-      { name: "甲烷", value: zero(num(snap.methane)), unit: "%", fixed: 2 },
+      { name: "Gas", value: zero(num(snap.gas)), unit: "%", fixed: 1 },
+      { name: "Flow", value: zero(num(snap.flow)), unit: "L/min", fixed: 1 },
+      { name: "Rated V", value: zero(num(snap.ratedVoltage)), unit: "V", fixed: 0 },
+      { name: "Rated A", value: zero(num(snap.ratedCurrent)), unit: "A", fixed: 0 },
+      { name: "RJ", value: zero(num(snap.rj)), unit: "Ω", fixed: 2 },
+      { name: "Short-Circuit Mult.", value: zero(num(snap.shortCircuitFactor)), unit: "x", fixed: 0 },
+      { name: "Methane", value: zero(num(snap.methane)), unit: "%", fixed: 2 },
     ]);
 
     const faultNameMap: Record<number, string> = {
-      1: "短路保护",
-      2: "过载保护",
-      3: "断相保护",
-      4: "过压保护",
-      5: "欠压保护",
-      6: "不平衡",
-      7: "水压闭锁",
-      8: "机温闭锁",
-      9: "流量闭锁",
-      10: "油温闭锁",
-      11: "风电闭锁",
-      12: "瓦斯闭锁",
-      13: "漏电闭锁",
-      14: "相序保护",
-      15: "液位保护",
-      16: "电压缺相",
-      17: "相序故障",
-      18: "油温断线",
-      19: "液位断线",
-      20: "机温断线",
-      21: "短路闭锁",
-      22: "急停闭锁",
+      1: "Short Circuit",
+      2: "Overload",
+      3: "Phase Loss",
+      4: "Overvoltage",
+      5: "Undervoltage",
+      6: "Imbalance",
+      7: "Water Lockout",
+      8: "Motor Temp Lockout",
+      9: "Flow Lockout",
+      10: "Oil Temp Lockout",
+      11: "Fan Lockout",
+      12: "Gas Lockout",
+      13: "Leakage Lockout",
+      14: "Phase Seq. Protect",
+      15: "Level Protect",
+      16: "Voltage Phase Loss",
+      17: "Phase Seq. Fault",
+      18: "Oil Temp Open",
+      19: "Level Open",
+      20: "Motor Temp Open",
+      21: "Short-Circuit Lockout",
+      22: "E-Stop Lockout",
     };
     const activeFault = faultNameMap[faultCode] ?? null;
 
     setStatuses(
       mockStatuses.map((s) => {
-        if (s.name === "通讯状态") return { ...s, state: connected ? "green" : "blue" }; // 无信号为蓝
-        if (s.name === "运行正常") return { ...s, state: connected && faultCode === 0 ? "green" : "blue" };
-        if (s.name === "合闸") return { ...s, state: connected && snap.breakerClosed ? "green" : "blue" };
+        if (s.name === "Comm") return { ...s, state: connected ? "green" : "blue" };
+        if (s.name === "Normal") return { ...s, state: connected && faultCode === 0 ? "green" : "blue" };
+        if (s.name === "Breaker Closed") return { ...s, state: connected && snap.breakerClosed ? "green" : "blue" };
         if (!connected) return { ...s, state: "blue" };
         if (activeFault && s.name === activeFault) return { ...s, state: "red" };
         return { ...s, state: s.state === "red" ? "blue" : s.state };
@@ -172,12 +172,12 @@ export default function Page() {
     const resetAll = () => {
       applyTelemetry({ connected: false });
       setWsStatus("disconnected");
-      setWsNotice("实时通道断开，等待重连...");
+      setWsNotice("Live feed offline. Reconnecting...");
       setWsVisible(true);
     };
     const connect = () => {
       setWsStatus("retrying");
-      setWsNotice("正在连接实时通道...");
+      setWsNotice("Connecting live feed...");
       setWsVisible(true);
       if (wsTimer) clearTimeout(wsTimer);
       ws = new WebSocket(wsUrl);
@@ -188,7 +188,7 @@ export default function Page() {
           retryTimer = null;
         }
         setWsStatus("connected");
-        setWsNotice("实时通道已连接");
+        setWsNotice("Live feed connected");
         const t = setTimeout(() => setWsVisible(false), 3000);
         setWsTimer(t);
       };
@@ -211,13 +211,13 @@ export default function Page() {
       ws.onerror = (err) => {
         console.warn("WebSocket error", err);
         setWsStatus("error");
-        setWsNotice("实时通道异常，准备重连...");
+        setWsNotice("Live feed error. Reconnecting...");
         setWsVisible(true);
         scheduleReconnect();
       };
       ws.onclose = () => {
         console.warn("WebSocket closed");
-        setWsNotice("实时通道断开，准备重连...");
+        setWsNotice("Live feed offline. Reconnecting...");
         setWsVisible(true);
         scheduleReconnect();
       };
@@ -234,9 +234,9 @@ export default function Page() {
       <header className="top-bar">
         <div className="brand">
           <div style={{ width: 48, height: 48, borderRadius: 12, display: "grid", placeItems: "center" }}>
-            <img src="/images/LOGO.png"></img>
+            <img src="/images/logo.png"></img>
           </div>
-          <h1>锚杆钻机智能系统</h1>
+          <h1>MH8A Smart Roof Bolter</h1>
         </div>
         <div className="actions">
           {statusMessage && <div className="badge">{statusMessage}</div>}
@@ -246,8 +246,8 @@ export default function Page() {
               <div className="date-text">{dateLabel}</div>
             </div>
           </div>
-          <button className="button" onClick={() => setShowSettings(true)}>设置</button>
-          <button className="button secondary" onClick={() => alert("退出应用（模拟）")}>退出</button>
+          <button className="button" onClick={() => setShowSettings(true)}>Settings</button>
+          <button className="button secondary" onClick={() => alert("Exit app (simulated)")}>Exit</button>
         </div>
       </header>
 
@@ -258,7 +258,7 @@ export default function Page() {
       <div className="content-grid">
         <div style={{ display: "flex", flexDirection: "column", gap: 12, height: "100%" }}>
           <section className="panel" style={{ flex: 0.65 }}>
-            <div className="panel-header">电压电流</div>
+            <div className="panel-header">Power</div>
             <div className="metrics-grid" style={{ gridTemplateColumns: "repeat(3, minmax(120px, 1fr))" }}>
               {electric.map((m) => (
                 <MonitorCard key={m.label} {...m} />
@@ -267,7 +267,7 @@ export default function Page() {
           </section>
 
           <section className="panel" style={{ flex: 0.35 }}>
-            <div className="panel-header">温度信息</div>
+            <div className="panel-header">Temps</div>
             <div className="metrics-grid" style={{ gridTemplateColumns: "repeat(2, minmax(120px, 1fr))" }}>
               {temps.map((t) => (
                 <TempCard key={t.label} {...t} />
@@ -281,7 +281,7 @@ export default function Page() {
         </div>
 
         <section className="panel" style={{ height: "100%", justifySelf: "end", width: "100%" }}>
-          <div className="panel-header">环境信息</div>
+          <div className="panel-header">Environment</div>
           <div className="metrics-grid" style={{ gridTemplateColumns: "repeat(3, minmax(140px, 1fr))" }}>
             {envs.map((e) => (
               <EnvCard key={e.name} {...e} />

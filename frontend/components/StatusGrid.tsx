@@ -12,7 +12,7 @@ export function StatusGrid({ items }: Props) {
   };
 
   return (
-    <section className="status-grid" aria-label="状态指示">
+    <section className="status-grid" aria-label="Status indicators">
       {items.map((item) => (
         <div
           key={item.name}

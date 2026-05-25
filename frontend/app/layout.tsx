@@ -4,13 +4,13 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "MH8A 控制台",
+  title: "MH8A Console",
   description: "Next.js rewrite of the MH8A QML UI with mocked data.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         <Providers>{children}</Providers>
       </body>

@@ -27,7 +27,7 @@ export function SettingsModal({ open, form, onClose, onSave }: Props) {
     const maybe = onSave(local);
     if (maybe instanceof Promise) {
       maybe.then((msg) => {
-        setToast(msg ?? "配置已保存");
+        setToast(msg ?? "Config saved");
       }).catch((err) => setToast(String(err)));
     }
   };
@@ -36,7 +36,7 @@ export function SettingsModal({ open, form, onClose, onSave }: Props) {
     <Modal
       opened={open}
       onClose={onClose}
-      title="系统设置"
+      title="Settings"
       centered
       size="lg"
       className="dark-modal"
@@ -59,16 +59,16 @@ export function SettingsModal({ open, form, onClose, onSave }: Props) {
       }}
     >
       {toast && <div className="badge" style={{ marginBottom: 12 }}>{toast}</div>}
-      <Divider label="Modbus 接收器" labelPosition="left" />
+      <Divider label="Modbus Receiver" labelPosition="left" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
         <TextInput
-          label="地址"
+          label="Host"
           value={local.host}
           onChange={(e) => updateField("host", e.currentTarget.value)}
           placeholder="192.168.1.120"
         />
         <NumberInput
-          label="端口"
+          label="Port"
           value={local.port}
           onChange={(v) => updateField("port", Number(v) || 0)}
           placeholder="502"
@@ -80,23 +80,23 @@ export function SettingsModal({ open, form, onClose, onSave }: Props) {
           placeholder="1"
         />
         <NumberInput
-          label="扫描周期(ms)"
+          label="Poll Interval (ms)"
           value={local.interval}
           onChange={(v) => updateField("interval", Number(v) || 0)}
           placeholder="100"
         />
       </div>
 
-      <Divider label="数据库配置" labelPosition="left" my={12} />
+      <Divider label="DB Settings" labelPosition="left" my={12} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
         <TextInput
-          label="数据库驱动"
+          label="DB Driver"
           value={local.dbDriver}
           onChange={(e) => updateField("dbDriver", e.currentTarget.value)}
           placeholder="QMYSQL"
         />
         <TextInput
-          label="数据库名称"
+          label="DB Name"
           value={local.dbDatabase}
           onChange={(e) => updateField("dbDatabase", e.currentTarget.value)}
           placeholder="ylkj"
@@ -108,29 +108,29 @@ export function SettingsModal({ open, form, onClose, onSave }: Props) {
           placeholder="localhost"
         />
         <NumberInput
-          label="端口"
+          label="Port"
           value={local.dbPort}
           onChange={(v) => updateField("dbPort", Number(v) || 0)}
           placeholder="3306"
         />
         <TextInput
-          label="用户"
+          label="User"
           value={local.dbUser}
           onChange={(e) => updateField("dbUser", e.currentTarget.value)}
           placeholder="root"
         />
         <TextInput
-          label="密码"
+          label="Password"
           value={local.dbPassword}
           onChange={(e) => updateField("dbPassword", e.currentTarget.value)}
-          placeholder="密码"
+          placeholder="Password"
           type="password"
         />
       </div>
 
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 18, gap: 12 }}>
-        <Button variant="outline" color="cyan" onClick={onClose}>取消</Button>
-        <Button color="cyan" onClick={save}>保存</Button>
+        <Button variant="outline" color="cyan" onClick={onClose}>Cancel</Button>
+        <Button color="cyan" onClick={save}>Save</Button>
       </div>
     </Modal>
   );
